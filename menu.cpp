@@ -4,7 +4,7 @@ void menu::operator()()
     {
         while (!m_Exit)
         {
-            system("clear"); // Clear console
+            if (system("clear")) {}; // Clear console
             StadiumManager->reloadView(); // Show representation
             std::cout << "-----------------------------------------------" << std::endl;
             std::cout << "Wybierz operacje do wykonania: " << std::endl;
