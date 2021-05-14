@@ -1,7 +1,5 @@
 #include "menu.hpp"
 
-
-
 void menu::operator()()
     {
         while (!m_Exit)

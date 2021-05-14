@@ -2,42 +2,44 @@
 #include "person.hpp"
 #include <memory>
 #include <map>
+#include <string>
 
+// This class is only demo version - need to be rebuild
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class seat // Abstract class
 {
 
 protected:
-    std::string m_Name;
+    mutable std::string m_Name;
     int m_Price;
-
+    std::map<std::string, int> &Prices;
+    virtual void initName() = 0; //Pure virtual function
 public:
-    //Pure virtual functions
-    virtual void initName() = 0;
-
-    void initPrice(std::string byName){
-
+    void initPrice(std::string byName)
+    {
+        m_Price = Prices[byName];
     };
-    // std::shared_ptr<Person> TicketOwner; ?
-
-public:
+    //std::shared_ptr<Person> TicketOwner;
     std::string getName() const { return m_Name; };
-    int getPrice() const { return m_Price; }
+    int getPrice() const { return m_Price; };
     bool reserveSeat(const Person &PersonToSit);
-    bool swapSeat(const Person &PersonToSit1, const Person &PersonToSit2);
+    bool swapSeat(const Person &FirstPerson, const Person &SecondPerson);
 
-public:
-    seat(std::map<std::string, int> &priceList){};
+    // Constructor
+    seat(std::map<std::string, int> &PriceMap) : Prices(PriceMap){};
 };
-
-class Standard : seat
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+class Standard : public seat // Standard seat class example
 {
-
+private:
     void initName() { m_Name = "Standard"; };
 
 public:
-    Standard(std::map<std::string, int> &priceList) : seat(priceList)
+    // Constructor
+    Standard(std::map<std::string, int> &PriceMap) : seat(PriceMap)
     {
         initName();
         initPrice(m_Name);
     };
 };
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

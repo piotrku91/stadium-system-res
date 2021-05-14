@@ -6,9 +6,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_compile_options(-Wall -Wextra -Werror -pedantic -pedantic-errors -g)
 
-file(GLOB SOURCES *.cpp)
+include_directories(${PROJECT_SOURCE_DIR})
 
-foreach(FILE ${SOURCES})
-    get_filename_component(BINNAME ${FILE} NAME_WE)
-    add_executable(${BINNAME} ${FILE})
-endforeach(FILE)
+add_executable(main main.cpp menu.cpp stadium.cpp) 
