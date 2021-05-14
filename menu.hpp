@@ -9,15 +9,21 @@
 class menu
 {
 private:
-    int m_Operation; // Actual operation to switch.
-    bool m_Exit; // If is true main loop it is going to break.
+    int m_Operation;                         // Actual operation to switch.
+    bool m_Exit;                             // If is true main loop it is going to break.
     std::shared_ptr<stadium> StadiumManager; // Keeps StadiumManager object smart pointer.
-    
+
+    // Menu basic internal functions
     bool isValid(int Input); // Checks is input from console is valid.
 
-public: // Menu
+public:
+    // Menu basic internal functions
     void operator()(); // Overloaded () operator
-    
-// Constructor
-    menu(std::shared_ptr<stadium> &SM) : m_Operation{false},m_Exit{false}, StadiumManager(SM){};
+
+    //  Menu managing functions
+    void menuExit();
+    void menuError(std::string Message = "error");
+
+    // Constructor
+    menu(std::shared_ptr<stadium> &SM) : m_Operation{false}, m_Exit{false}, StadiumManager(SM){};
 };

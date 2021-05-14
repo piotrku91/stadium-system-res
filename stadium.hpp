@@ -5,7 +5,6 @@
 #include "person.hpp"
 #include "seat.hpp"
 
-
 class stadium
 {
 private:

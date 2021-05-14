@@ -7,8 +7,8 @@ void stadium::reloadView()
     std::cout << "REPREZENTACJA GRAFICZNA MIEJSC :" << std::endl;
     std::cout << std::endl;
 
-// Simple column counter
-    for (size_t i = 1; i <= Line.size(); i++)  
+    // Simple column counter
+    for (size_t i = 1; i <= Line.size(); i++)
     {
         if (i < 10)
         {
@@ -21,7 +21,7 @@ void stadium::reloadView()
     };
     std::cout << std::endl;
 
-// Access to element by range-based loop
+    // Access to element by range-based loop
     for (auto &OneSit : getLine())
     {
         std::cout << "[" << getSymbol(OneSit) << "] ";

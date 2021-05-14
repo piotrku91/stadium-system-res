@@ -8,6 +8,6 @@ private:
     std::string m_lastName;
 
 public:
-//Constuctor
+    //Constuctor
     Person(std::string firstName, std::string lastName) : m_firstName(firstName), m_lastName(lastName){};
 };

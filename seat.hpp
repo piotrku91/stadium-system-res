@@ -22,8 +22,9 @@ public:
     //std::shared_ptr<Person> TicketOwner;
     std::string getName() const { return m_Name; };
     int getPrice() const { return m_Price; };
+    // Prototypes 
     bool reserveSeat(const Person &PersonToSit);
-    bool swapSeat(const Person &FirstPerson, const Person &SecondPerson);
+    bool swapSeat(const seat& SecondSeat);
 
     // Constructor
     seat(std::map<std::string, int> &PriceMap) : Prices(PriceMap){};

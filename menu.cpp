@@ -1,5 +1,7 @@
 #include "menu.hpp"
 
+// Menu basic internal functions file
+
 void menu::operator()()
     {
         while (!m_Exit)
@@ -17,25 +19,27 @@ void menu::operator()()
             {
                 break;
             };
+            /* Implementation of main functions - Create declarations in header file, write definitions in menu_main_func.cpp 
+            and put here in switch case instructions (for example menuExit and menuError)*/
             case 8: // Break the loop and program exit
             {
-                m_Exit=true; 
+                menuExit(); 
                 break;
             }
             default: // Input value number is not implemented.
             {
-                std::cout << "error" << std::endl;
-                m_Operation = 0;
+                menuError();
                 break;
             };
             };
             }
         };
     }
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     bool menu::isValid(int Input)
 {
 Input = Input; // Just for pass compilation.
 // Need to be implemented. For now is always true.
 return true;
 }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
