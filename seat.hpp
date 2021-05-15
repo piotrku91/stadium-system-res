@@ -25,6 +25,7 @@ public:
     // Prototypes 
     bool reserveSeat(const Person &PersonToSit);
     bool swapSeat(const seat& SecondSeat);
+    bool isBusy();
 
     // Constructor
     seat(std::map<std::string, int> &PriceMap) : Prices(PriceMap){};

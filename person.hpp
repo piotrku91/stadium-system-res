@@ -8,6 +8,8 @@ private:
     std::string m_lastName;
 
 public:
-    //Constuctor
+//Prototypes
+    int getAge();
+ //Constuctor
     Person(std::string firstName, std::string lastName) : m_firstName(firstName), m_lastName(lastName){};
 };

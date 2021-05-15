@@ -7,7 +7,7 @@ void menu::operator()()
         while (!m_Exit)
         {
             if (system("clear")) {}; // Clear console
-            StadiumManager->reloadView(); // Show representation
+            reloadView(); // Show representation
             std::cout << "-----------------------------------------------" << std::endl;
             std::cout << "Wybierz operacje do wykonania: " << std::endl;
             std::cin >> m_Operation; // Getting input from user
@@ -43,3 +43,31 @@ Input = Input; // Just for pass compilation.
 return true;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void menu::reloadView()
+{
+    std::cout << " ***** SYSTEM REZERWACJI MIEJSC STADIONOWYCH :) ***** FOR TRAINING " << std::endl;
+    std::cout << std::endl;
+    std::cout << "REPREZENTACJA GRAFICZNA MIEJSC :" << std::endl;
+    std::cout << std::endl;
+
+    // Simple column counter
+    for (size_t i = 1; i <= StadiumManager->getLine().size(); i++)
+    {
+        if (i < 10)
+        {
+            std::cout << " " << i << "  ";
+        }
+        else
+        {
+            std::cout << " " << i << " ";
+        };
+    };
+    std::cout << std::endl;
+
+    // Access to element by range-based loop
+    for (auto &OneSit : StadiumManager->getLine())
+    {
+        std::cout << "[" << StadiumManager->getSymbol(OneSit) << "] ";
+    };
+    std::cout << "\n\n\n";
+}
