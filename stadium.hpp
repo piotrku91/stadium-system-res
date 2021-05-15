@@ -22,10 +22,10 @@ private:
 
     // Person list to implement
 
-    // Seats list (m_LineSeats*m_RowSeats*m_Floor) to implement as 3 vectors
+    // Seats list (m_LineSeats*m_RowSeats*m_Floor) to implement as 3 vectors (prototype - needs to be implemented)
     std::vector<std::unique_ptr<seat>> Line; // One for example.
 
-    void temporary_fill_function(int size) // fill function just for debug and example
+    void temporary_fill_function(int size) // fill function just for debug and example (prototype - needs to be rebuilded and renamed)
     {
         for (int i = 0; i < size; i++)
         {

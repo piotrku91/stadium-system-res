@@ -20,5 +20,6 @@ private:
     void saveToFile();
     std::string getEventName(Op Event);
 public:
-    void addLog(Op LogEvent, std::string Operation);
+    void addLog(Op LogEvent, const std::string& Operation);
+    void operator()(Op LogEvent, const std::string& Operation) {addLog(LogEvent, Operation);}; // Operator () overload.
 };

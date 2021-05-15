@@ -4,12 +4,14 @@
 
 void menu::operator()()
     {
+        Logger(Op::Success,"Program started...");
         while (!m_Exit)
         {
             if (system("clear")) {}; // Clear console
             reloadView(); // Show representation
             std::cout << "-----------------------------------------------" << std::endl;
             std::cout << "Wybierz operacje do wykonania: " << std::endl;
+            // reloadMenu();
             std::cin >> m_Operation; // Getting input from user
 
     if (isValid(m_Operation)) {
@@ -21,7 +23,7 @@ void menu::operator()()
             };
             /* Implementation of main functions - Create declarations in header file, write definitions in menu_main_func.cpp 
             and put here in switch case instructions (for example menuExit and menuError)*/
-            case 8: // Break the loop and program exit
+            case 9: // Break the loop and program exit
             {
                 menuExit(); 
                 break;
@@ -39,7 +41,7 @@ void menu::operator()()
     bool menu::isValid(int Input)
 {
 Input = Input; // Just for pass compilation.
-// Need to be implemented. For now is always true.
+// Needs to be implemented. For now is always true.
 return true;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

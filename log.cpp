@@ -1,9 +1,9 @@
 #include "log.hpp"
 
-void log::addLog(Op Event, std::string Operation)
+void log::addLog(Op Event, const std::string& Operation)
 {
-    Operation = getEventName(Event) + " " + Operation;
-    // saveToFile(Operation);
+    std::string LineToSave = getEventName(Event) + " " + Operation; // After implementation function saveToFile we can remove LineToSave variable :) 
+    // saveToFile(LineToSave);
 }
 
 std::string log::getEventName(Op Event)

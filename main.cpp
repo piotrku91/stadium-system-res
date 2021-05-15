@@ -1,3 +1,11 @@
+/* Stadium Seats Manager - Additional training project for Coders School (http://coders.school).
+   
+   Project start date: 13.05.2021 18:11 by Piotr K. (http://piotrq.eu)
+
+   Contributors:
+   Your name could be here ... :)
+
+*/
 #include <iostream>
 #include <memory>
 #include "menu.hpp"
