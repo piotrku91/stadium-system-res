@@ -38,7 +38,7 @@ public:
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class Standard : public seat // Standard seat class example
+class Standard : public seat // Standard seat derived class 
 {
 private:
     void initName() override { m_Name = "Standard";};
@@ -47,7 +47,7 @@ public:
     Standard(std::map<std::string, int> &PriceMap):seat(PriceMap) {initName(); initPrice(m_Name); }; // seat subclass constructor
 };
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class VIP : public seat // Standard seat class example
+class VIP : public seat // VIP seat derived class 
 {
 private:
     void initName() override { m_Name = "VIP";};
@@ -56,7 +56,7 @@ public:
     VIP(std::map<std::string, int> &PriceMap):seat(PriceMap) {initName(); initPrice(m_Name); }; // seat subclass constructor
 };
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class Disabled : public seat // Standard seat class example
+class Disabled : public seat // Disabled derived seat class 
 {
 private:
     void initName() override { m_Name = "Disabled";};
