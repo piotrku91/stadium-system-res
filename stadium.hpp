@@ -13,7 +13,7 @@ private:
     size_t m_Floor;
 
     // Map with Prices List
-    std::map<std::string, int> Prices{
+    std::map<std::string, int> ActualPrices{
         {"Standard", 370},
         {"Disabled", 250},
         {"VIP", 1000}};
@@ -28,8 +28,9 @@ private:
     void temporary_fill_function(int size) // fill function just for debug and example (prototype - needs to be rebuilded and renamed)
     {
         for (int i = 0; i < size; i++)
-        {
-            Line.emplace_back(std::make_unique<Standard>(Prices));
+        {   // TEST TO CREATE DIFFERENT OBJECTS 
+            if (i<10) { Line.emplace_back(seat::createSeat<Standard>(ActualPrices)); } else { Line.emplace_back(seat::createSeat<VIP>(ActualPrices)); };
+            
         };
     };
 
@@ -40,6 +41,7 @@ public:
     // Constructor
     stadium(size_t SeatsInLine, size_t RowsOfLines, size_t Floors) : m_LineSeats(SeatsInLine), m_RowSeats(RowsOfLines), m_Floor(Floors)
     {
+       
         temporary_fill_function(SeatsInLine);
     };
 };

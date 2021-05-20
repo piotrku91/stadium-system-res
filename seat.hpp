@@ -12,36 +12,56 @@ class seat // Abstract class
 protected:
     mutable std::string m_Name;
     int m_Price;
-    std::map<std::string, int> &Prices;
-    virtual void initName() = 0; //Pure virtual function
+    std::map<std::string, int> &Prices; // Reference to prices list
+    virtual void initName() = 0; // Pure virtual function
+    void initPrice(std::string& byName);
+
+    seat(std::map<std::string, int> &PriceMap):Prices(PriceMap){}; // Constructor (protected)
+
 public:
-    void initPrice(std::string byName)
+    // Template of production function
+    template <typename T>
+    static std::unique_ptr<seat> createSeat(std::map<std::string, int> &PriceMap) // Produce new object of subclass
     {
-        m_Price = Prices[byName];
-    };
-    //std::shared_ptr<Person> TicketOwner; //(prototype - needs to be implemented)
+        std::unique_ptr<seat> newSeat(new T(PriceMap));
+        return newSeat;
+    }
+   
+    // Getters functions
     std::string getName() const { return m_Name; };
     int getPrice() const { return m_Price; };
-    // Prototypes 
+    // Prototypes - TODO
     bool reserveSeat(const Person &PersonToSit); //(prototype - needs to be implemented)
-    bool swapSeat(const seat& SecondSeat); //(prototype - needs to be implemented)
-    bool isBusy(); //(prototype - needs to be implemented)
-
-    // Constructor
-    seat(std::map<std::string, int> &PriceMap) : Prices(PriceMap){};
+    bool swapSeat(const seat &SecondSeat);       //(prototype - needs to be implemented)
+    bool isBusy() const;                               //(prototype - needs to be implemented)
+    //std::shared_ptr<Person> TicketOwner; //(prototype - needs to be implemented)
 };
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Standard : public seat // Standard seat class example
 {
 private:
-    void initName() { m_Name = "Standard"; };
-
+    void initName() override { m_Name = "Standard";};
 public:
     // Constructor
-    Standard(std::map<std::string, int> &PriceMap) : seat(PriceMap)
-    {
-        initName();
-        initPrice(m_Name);
-    };
+    Standard(std::map<std::string, int> &PriceMap):seat(PriceMap) {initName(); initPrice(m_Name); }; // seat subclass constructor
+};
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+class VIP : public seat // Standard seat class example
+{
+private:
+    void initName() override { m_Name = "VIP";};
+public:
+    // Constructor
+    VIP(std::map<std::string, int> &PriceMap):seat(PriceMap) {initName(); initPrice(m_Name); }; // seat subclass constructor
+};
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+class Disabled : public seat // Standard seat class example
+{
+private:
+    void initName() override { m_Name = "Disabled";};
+public:
+    // Constructor
+    Disabled(std::map<std::string, int> &PriceMap):seat(PriceMap) {initName(); initPrice(m_Name); }; // seat subclass constructor
 };
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

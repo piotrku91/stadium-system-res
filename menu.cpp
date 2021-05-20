@@ -52,24 +52,28 @@ void menu::reloadView()
     std::cout << "REPREZENTACJA GRAFICZNA MIEJSC :" << std::endl;
     std::cout << std::endl;
 
-    // Simple column counter
+    // Simple column counter to rebuild
+    std::cout << " X ";
     for (size_t i = 1; i <= StadiumManager->getLine().size(); i++)
     {
+       
         if (i < 10)
         {
-            std::cout << " " << i << "  ";
+            std::cout << std::setw(2) << "" << i << " " ;
         }
         else
         {
-            std::cout << " " << i << " ";
+             std::cout << std::setw(1) << " " << i << " " ;
         };
     };
     std::cout << std::endl;
 
+    std::cout << " 1 ";
+
     // Access to element by range-based loop
     for (auto &OneSit : StadiumManager->getLine())
     {
-        std::cout << "[" << StadiumManager->getSymbol(OneSit) << "] ";
+        std::cout << std::setw(1) << "[" << StadiumManager->getSymbol(OneSit) << "] ";
     };
     std::cout << "\n\n\n";
 }
