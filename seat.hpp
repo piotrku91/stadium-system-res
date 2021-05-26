@@ -10,16 +10,17 @@ class seat // Abstract class
 {
 
 protected:
+    size_t m_SeatID;
     mutable std::string m_Name;
     int m_Price;
     std::map<std::string, int> &Prices; // Reference to prices list
     virtual void initName() = 0;        // Pure virtual function
     void initPrice(std::string &byName);
 
-    seat(std::map<std::string, int> &PriceMap) : Prices(PriceMap){}; // Constructor (protected)
+    seat(std::map<std::string, int> &PriceMap) : m_SeatID(Counter++), Prices(PriceMap){}; // Constructor (protected)
 
 public:
-    static size_t Counter;
+    inline static size_t Counter; // Keeps actual amount of created seats.
     // Template of production function
     template <typename T>
     static std::unique_ptr<seat> createSeat(std::map<std::string, int> &PriceMap) // Produce new object of subclass
@@ -30,6 +31,7 @@ public:
 
     // Getters functions
     std::string getName() const { return m_Name; };
+    size_t getID() const { return m_SeatID; };
     void testName() { m_Name = ".."; }; // Test function to change something (temporary)
     int getPrice() const { return m_Price; };
     char getSymbol() { return getName()[0]; }; // Returns first char of name
