@@ -2,6 +2,8 @@
 #include <iomanip>
 #include <memory>
 #include <string>
+#include <map>
+#include <functional>
 #include "stadium.hpp"
 #include "stdlib.h"
 #include "log.hpp"
@@ -13,12 +15,23 @@ class menu
 {
 private:
     log Logger;                               // Log object
-    int m_Operation;                         // Actual operation to switch.
+    std::string m_Operation;                         // Actual operation to switch.
     bool m_Exit;                             // If is true main loop it is going to break.
     std::shared_ptr<stadium> StadiumManager; // Keeps StadiumManager object smart pointer.
 
+    // m_Debug switches on and off additional debug menu
+    bool m_Debug {true};                        // Switch it to false when releasing for production
+    std::string m_DebugMsg {""};
+
     // Menu basic internal functions
-    bool isValid(int Input); // Checks is input from console is valid. (prototype - needs to be rebuilded)
+
+    // Map of commands and relevant methods (lambas or regular provided void return and no arguments)
+    // Methods must throw exceptions if there is a need to trigger invalid input handler
+    std::map<std::string, std::function<void()>> m_Commands
+    {
+        {"idle", [](){ return; }},
+        {"exit", [this](){ m_Exit = true; }}
+    };
 
 public:
     // Menu basic internal functions
@@ -31,5 +44,5 @@ public:
     // And more to implement
 
     // Constructor
-    menu(std::shared_ptr<stadium> &SM) : m_Operation{false}, m_Exit{false}, StadiumManager(SM){};
+    menu(std::shared_ptr<stadium> &SM) : m_Exit{false}, StadiumManager(SM){};
 };

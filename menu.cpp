@@ -14,42 +14,27 @@ void menu::operator()()
         std::cout << "-----------------------------------------------" << std::endl;
         std::cout << "Wybierz operacje do wykonania: " << std::endl;
         // reloadMenu();
-        std::cin >> m_Operation; // Getting input from user
-
-        if (isValid(m_Operation))
+        std::getline(std::cin, m_Operation); // Getting input from user
+        try { m_Commands.at(m_Operation)(); }
+        catch (...)
         {
-            switch (m_Operation)
-            {
-            case 0: // Do nothing - wait for operations
-            {
-                break;
-            };
-            /* Implementation of main functions - Create declarations in header file, write definitions in menu_main_func.cpp 
-            and put here in switch case instructions (for example menuExit and menuError)*/
-            case 9: // Break the loop and program exit
-            {
-                menuExit();
-                break;
-            }
-            default: // Input value number is not implemented.
-            {
-                menuError();
-                break;
-            };
-            };
+            // Invalid input handler
+            m_DebugMsg = "Invalid input. Passed command: " + m_Operation;
+            Logger(Op::Error, "Invalid input. Passed command: " + m_Operation); // Needs rebuilding when application expand to catch exception msgs
         }
     };
 }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool menu::isValid(int Input)
-{
-    Input = Input; // Just for pass compilation.
-    // Needs to be implemented. For now is always true.
-    return true;
-}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void menu::reloadView()
 {
+    if(m_Debug)
+    {
+        std::cout << "*** DEBUG MENU ***\n";
+        std::cout << "Debug msg: " << m_DebugMsg << '\n';
+        std::cout << "*** DEBUG MENU ***\n\n";
+        m_DebugMsg = "";
+    }
     std::cout << " ***** SYSTEM REZERWACJI MIEJSC STADIONOWYCH :) ***** FOR TRAINING " << std::endl;
     std::cout << std::endl;
     std::cout << "REPREZENTACJA GRAFICZNA MIEJSC :" << std::endl;
