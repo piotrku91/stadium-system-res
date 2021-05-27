@@ -45,7 +45,9 @@ public:
     const std::vector<std::unique_ptr<seat>>& getLinePlus(size_t Row, size_t Floor) { return getLine(Row - 1, Floor - 1); };           // One-based numbering getter (index 1 = index 0)
     const std::unique_ptr<seat> &getSeatPlus(size_t Seat, size_t Row, size_t Floor) { return getSeat(Seat - 1, Row - 1, Floor - 1); }; // One-based numbering getter (index 1 = index 0)
 
-    size_t getSeatsInLineAmount() const { return m_LineSeats; };
+    size_t getSeatsInLineAmount() const { return m_LineSeats; }
+    size_t getRows() const { return m_RowSeats; }
+    size_t getFloors() const { return m_Floor; }
 
     size_t getCountOfReservedSeats(const std::shared_ptr<Person>& PersonPtr);
 

@@ -26,13 +26,17 @@ private:
     // Menu basic internal functions
     std::vector<std::string> m_CommandArgs;
     void tokenize(const std::string& command_sentence, const char delim, std::vector<std::string>& args);
+    void reserveSeat();
+    void checkReserved();
+    void exit();
 
     // Map of commands and relevant lambdas
     // Methods must throw exceptions if there is a need to trigger invalid input handler
     std::map<std::string, std::function<void()>> m_Commands
     {
-        {"idle", [](){ return; }},
-        {"exit", [this](){ m_Exit = true; }}
+        {"exit", [this](){ this->exit(); }},
+        {"reserved", [this](){ this->checkReserved(); }},
+        {"rezerwuj", [this](){ this->reserveSeat(); }} // seat row floor
     };
 
 public:

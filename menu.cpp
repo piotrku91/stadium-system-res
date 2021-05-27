@@ -105,6 +105,34 @@ void menu::tokenize(const std::string& command_sentence, const char delim, std::
     while((start = command_sentence.find_first_not_of(delim, end)) != std::string::npos)
     {
         end = command_sentence.find(delim, start);
-        args.emplace_back(command_sentence.substr(start, end - start));
+        args.push_back(command_sentence.substr(start, end - start));
     }
+}
+
+void menu::reserveSeat()
+{
+    size_t seat = std::stoull(this->m_CommandArgs.at(1)) - 1;
+    size_t row = std::stoull(this->m_CommandArgs.at(2)) - 1;
+    size_t floor = std::stoull(this->m_CommandArgs.at(3)) - 1;
+    if(seat < this->StadiumManager->getSeatsInLineAmount() && row < this->StadiumManager->getRows() && floor < this->StadiumManager->getFloors())
+    {
+        this->StadiumManager->getSeat(seat, row, floor)->reserveSeat(this->StadiumManager->ExampleGuy);
+        m_DebugMsg << "Seat: " << seat + 1 << ", row: " << row + 1 << ", floor: " << floor + 1
+            << " reserved succesfully by " << this->StadiumManager->ExampleGuy->getFullName();
+    }
+    else
+    {
+        m_DebugMsg << "Seat not reserved due to invalid arguments either in seat, row or floor";
+    }
+}
+
+void menu::checkReserved()
+{
+    this->m_DebugMsg << this->StadiumManager->ExampleGuy->getFullName() << " zarezerwował "
+        << this->StadiumManager->getCountOfReservedSeats(this->StadiumManager->ExampleGuy) << " miejsc.";
+}
+
+void menu::exit()
+{
+    this->m_Exit = true;
 }
