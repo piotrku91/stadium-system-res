@@ -15,17 +15,19 @@ class menu
 {
 private:
     log Logger;                               // Log object
-    std::string m_Operation;                         // Actual operation to switch.
+    std::string m_Command;                         // Actual operation to switch.
     bool m_Exit;                             // If is true main loop it is going to break.
     std::shared_ptr<stadium> StadiumManager; // Keeps StadiumManager object smart pointer.
 
     // m_Debug switches on and off additional debug menu
     bool m_Debug {true};                        // Switch it to false when releasing for production
-    std::string m_DebugMsg {""};
+    std::stringstream m_DebugMsg {""};
 
     // Menu basic internal functions
+    std::vector<std::string> m_CommandArgs;
+    void tokenize(const std::string& command_sentence, const char delim, std::vector<std::string>& args);
 
-    // Map of commands and relevant methods (lambas or regular provided void return and no arguments)
+    // Map of commands and relevant lambdas
     // Methods must throw exceptions if there is a need to trigger invalid input handler
     std::map<std::string, std::function<void()>> m_Commands
     {
