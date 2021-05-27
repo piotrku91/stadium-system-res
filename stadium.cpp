@@ -11,11 +11,16 @@
                 for (size_t i = 0; i < m_LineSeats; i++)
                 {   //TODO: implement creation of proper object in right places 
                     // if (i<10) { Line.emplace_back(seat::createSeat<Standard>(ActualPrices)); } else { Line.emplace_back(seat::createSeat<VIP>(ActualPrices)); }; // test
-                    Line.emplace_back(seat::createSeat<Standard>(ActualPrices));
+                    Line.push_back(seat::createSeat<Standard>(ActualPrices));
                 };
-                Row.emplace_back(std::move(Line));
+                Row.push_back(std::move(Line));
             };
-            wholeObject.emplace_back(std::move(Row));
+            wholeObject.push_back(std::move(Row));
         };
     }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+size_t stadium::getCountOfReservedSeats(const std::shared_ptr<Person>& PersonPtr) 
+{
+     if (PersonPtr)  { return PersonPtr.use_count() - 1; };
+     return 0;
+     }

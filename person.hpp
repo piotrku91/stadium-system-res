@@ -4,7 +4,7 @@
 class Person
 {
 private:
-    //size_t UserID;
+    size_t m_userID;
     std::string m_firstName;
     std::string m_lastName;
     std::string m_phoneNumber;
@@ -14,12 +14,13 @@ private:
 
 public:
     // Getters
+    size_t getID() {return m_userID;};
     std::string getName() { return m_firstName; };
     std::string getlastName() { return m_lastName; };
     std::string getFullName() { return m_firstName + " " + m_lastName; };
     std::string getPhone() { return m_phoneNumber; };
     std::string getEmail() { return m_email; };
-    std::string getPassport() { return m_passportNumber; }; // Should be unique so could be like UserID
+    std::string getPassport() { return m_passportNumber; }; 
 
     int getAge(); //(prototype - needs to be implemented)
                   //Constuctor

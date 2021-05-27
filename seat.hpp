@@ -25,8 +25,7 @@ public:
     template <typename T>
     static std::unique_ptr<seat> createSeat(std::map<std::string, int> &PriceMap) // Produce new object of subclass
     {
-        std::unique_ptr<seat> newSeat(new T(PriceMap));
-        return newSeat;
+        return std::make_unique<T>(T(PriceMap));
     }
 
     // Getters functions
@@ -36,10 +35,17 @@ public:
     int getPrice() const { return m_Price; };
     char getSymbol() { return getName()[0]; }; // Returns first char of name
     // Prototypes - TODO
-    bool reserveSeat(const Person &PersonToSit); //(prototype - needs to be implemented)
-    bool swapSeat(const seat &SecondSeat);       //(prototype - needs to be implemented)
-    bool isBusy() const;                         //(prototype - needs to be implemented)
-    //std::shared_ptr<Person> TicketOwner; //(prototype - needs to be implemented)
+    bool reserveSeat(const std::shared_ptr<Person> &PersonPtr); //(prototype - needs to be implemented)
+                                                                // bool swapSeat(const seat &SecondSeat);       //(prototype - needs to be implemented)
+    bool isBusy()
+    {
+        if (TicketOwner)
+        {
+            return true;
+        }
+        return false;
+    }
+    std::shared_ptr<Person> TicketOwner;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
