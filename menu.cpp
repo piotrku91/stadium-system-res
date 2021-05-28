@@ -51,7 +51,7 @@ void menu::reloadView()
 
     // Simple column counter
     std::cout << " X  ";
-    for (size_t i = 1; i <= StadiumManager->getSeatsInLineAmount(); i++)
+    for (size_t i = 1; i <= StadiumManager->getSeats(); i++)
     {
 
         if (i < 10)
@@ -66,9 +66,10 @@ void menu::reloadView()
     std::cout << std::endl;
 
     // TEST BY CHANGE SOMETHING AND CHECK IF COORDINATES ARE OK :)
-    StadiumManager->getLine(1, 0)[0]->testName();
-    StadiumManager->getSeat(1, 1, 0)->testName();
-    StadiumManager->getSeatPlus(1, 1, 1)->testName();
+    //StadiumManager->getLine(1, 0)[0]->testName();
+    StadiumManager->getSeat(0, 14)->testName();
+    //std::cout << StadiumManager->getIdByCoords(1,0) <<std::endl;
+ 
 
     int LineCounter = 1; // Counter for next lines
     for (auto &StadiumRow : StadiumManager->getWholeObject())
@@ -88,7 +89,12 @@ void menu::reloadView()
 
             for (auto &Seat : StadiumLine)
             {
-                std::cout << std::setw(1) << "[" << Seat->getSymbol() << "] ";
+                 //temporary solution of representation busy and free seat
+                char So='[';
+                char Sc=']';
+                if (Seat->isBusy()) {So=Sc=':'; };
+
+                std::cout << std::setw(1) << So << Seat->getSymbol() << Sc << " ";
             };
             std::cout << std::endl;
         };
@@ -114,7 +120,7 @@ void menu::reserveSeat()
     size_t seat = std::stoull(this->m_CommandArgs.at(1)) - 1;
     size_t row = std::stoull(this->m_CommandArgs.at(2)) - 1;
     size_t floor = std::stoull(this->m_CommandArgs.at(3)) - 1;
-    if(seat < this->StadiumManager->getSeatsInLineAmount() && row < this->StadiumManager->getRows() && floor < this->StadiumManager->getFloors())
+    if(seat < this->StadiumManager->getSeats() && row < this->StadiumManager->getRows() && floor < this->StadiumManager->getFloors())
     {
         this->StadiumManager->getSeat(seat, row, floor)->reserveSeat(this->StadiumManager->ExampleGuy);
         m_DebugMsg << "Seat: " << seat + 1 << ", row: " << row + 1 << ", floor: " << floor + 1

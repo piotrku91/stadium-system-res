@@ -9,7 +9,7 @@ using TRow = std::vector<std::vector<std::unique_ptr<seat>>>; // short notation 
 class stadium
 {
     //Temporary public
-    public:
+public:
     std::shared_ptr<Person> ExampleGuy; // temporary guy for tests
 
 private:
@@ -35,22 +35,18 @@ private:
 
 public:
     // Public functions
-    const std::vector<TRow>& getWholeObject() { return wholeObject; };
-    char getSymbol(std::unique_ptr<seat>& item); // Return first char of seat object name.
+    const std::vector<TRow> &getWholeObject() { return wholeObject; };
+    char getSymbol(std::unique_ptr<seat> &item); // Return first char of seat object name.
     // Zero-based numbering getters (index 0 = index 0)
-    const std::vector<std::unique_ptr<seat>>& getLine(size_t Row, size_t Floor) { return wholeObject[Floor][Row]; };      // Zero-based numbering getter (index 0 = index 0)
-    const std::unique_ptr<seat> &getSeat(size_t Seat, size_t Row, size_t Floor) { return wholeObject[Floor][Row][Seat]; } // Zero-based numbering getter (index 0 = index 0)
-
-    // Conversion to One-based numbering getters (index 1 = index 0)
-    const std::vector<std::unique_ptr<seat>>& getLinePlus(size_t Row, size_t Floor) { return getLine(Row - 1, Floor - 1); };           // One-based numbering getter (index 1 = index 0)
-    const std::unique_ptr<seat> &getSeatPlus(size_t Seat, size_t Row, size_t Floor) { return getSeat(Seat - 1, Row - 1, Floor - 1); }; // One-based numbering getter (index 1 = index 0)
-
-    size_t getSeatsInLineAmount() const { return m_LineSeats; }
-    size_t getRows() const { return m_RowSeats; }
-    size_t getFloors() const { return m_Floor; }
-
-    size_t getCountOfReservedSeats(const std::shared_ptr<Person>& PersonPtr);
-
+    const std::vector<std::unique_ptr<seat>> &getLine(size_t Row, size_t Floor) { return wholeObject[Floor][Row]; };       // Zero-based numbering getter (index 0 = index 0)
+    const std::unique_ptr<seat>& getSeat(size_t Seat, size_t Row, size_t Floor) { return wholeObject[Floor][Row][Seat]; }; // Zero-based numbering getter (index 0 = index 0)
+    const std::unique_ptr<seat>& getSeat(size_t X, size_t Y); 
+    size_t getSeats() const { return m_LineSeats; };
+    size_t getRows() const { return m_RowSeats; };
+    size_t getFloors() const { return m_Floor; };
+    size_t getCountOfReservedSeats(const std::shared_ptr<Person> &PersonPtr);
+    size_t getIdByCoords(size_t Seat, size_t Row, size_t Floor){ return Seat+Row*m_LineSeats+Floor*m_RowSeats*m_LineSeats;};
+    size_t getIdByCoords(size_t X, size_t Y) {return X+Y*m_LineSeats; };
 
     // Constructor
     stadium(size_t SeatsInLine, size_t RowsOfLines, size_t Floors) : m_LineSeats(SeatsInLine), m_RowSeats(RowsOfLines), m_Floor(Floors)
