@@ -1,21 +1,24 @@
 #include "menu.hpp"
 
-// Menu basic internal functions file
-
-void menu::operator()()
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+menu::menu(std::shared_ptr<stadium>& t_pStadiumManager) : m_Exit(false), m_pStadiumManager(t_pStadiumManager){}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void menu::run()
 {
-    Logger(Op::Success, "Program started...");
+    m_Logger(Op::Success, "Program started...");
+    this->mainLoop();
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void menu::mainLoop()
+{
     while (!m_Exit)
     {
-        if (system("clear"))
-        {
-        };            // Clear console
         reloadView(); // Show representation
         std::cout << "-----------------------------------------------" << std::endl;
         std::cout << "Wybierz operacje do wykonania: " << std::endl;
-        std::getline(std::cin, m_Command);
-        tokenize(m_Command, ' ', m_CommandArgs);
-        try { m_Commands.at(m_CommandArgs[0])(); }
+        std::getline(std::cin, m_UserCommand);
+        tokenize(m_UserCommand, ' ', m_CommandArgs);
+        try { m_MapCommands.at(m_CommandArgs[0])(); }
         catch (...)
         {
             // Invalid input handler
@@ -28,14 +31,15 @@ void menu::operator()()
                 }
                 m_DebugMsg << "arg[" << i << "]: \"" << m_CommandArgs[i] << "\"";
             }
-            Logger(Op::Error, m_DebugMsg.str());
+            m_Logger(Op::Error, m_DebugMsg.str());
         }
-    };
+    }
 }
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void menu::reloadView()
 {
+    system("clear"); // Clear console
+
     if(m_Debug)
     {
         std::cout << "*** DEBUG MENU ***\n";
@@ -51,7 +55,7 @@ void menu::reloadView()
 
     // Simple column counter
     std::cout << " X  ";
-    for (size_t i = 1; i <= StadiumManager->getTotalSeatsInLine(); i++)
+    for (size_t i = 1; i <= m_pStadiumManager->getTotalSeatsInLine(); i++)
     {
 
         if (i < 10)
@@ -66,7 +70,7 @@ void menu::reloadView()
     std::cout << std::endl;
 
     int LineCounter = 1; // Counter for next lines
-    for (auto &StadiumRow : StadiumManager->getWholeObject())
+    for (auto &StadiumRow : m_pStadiumManager->getWholeObject())
     {
 
         for (auto &StadiumLine : StadiumRow)
@@ -91,43 +95,47 @@ void menu::reloadView()
         std::cout << std::endl;
     };
 }
-
-void menu::tokenize(const std::string& command_sentence, const char delim, std::vector<std::string>& args)
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void menu::tokenize(const std::string& t_UserCommand, const char t_Delim, std::vector<std::string>& t_Args)
 {
     size_t start;
     size_t end {0};
 
-    while((start = command_sentence.find_first_not_of(delim, end)) != std::string::npos)
+    while((start = t_UserCommand.find_first_not_of(t_Delim, end)) != std::string::npos)
     {
-        end = command_sentence.find(delim, start);
-        args.push_back(command_sentence.substr(start, end - start));
+        end = t_UserCommand.find(t_Delim, start);
+        t_Args.push_back(t_UserCommand.substr(start, end - start));
     }
 }
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void menu::reserveSeat()
 {
     size_t seat = std::stoull(this->m_CommandArgs.at(1)) - 1;
     size_t row = std::stoull(this->m_CommandArgs.at(2)) - 1;
     size_t floor = std::stoull(this->m_CommandArgs.at(3)) - 1;
-    if(seat < this->StadiumManager->getTotalSeatsInLine() && row < this->StadiumManager->getTotalRows() && floor < this->StadiumManager->getTotalFloors())
+    if(seat < this->m_pStadiumManager->getTotalSeatsInLine() && row < this->m_pStadiumManager->getTotalRows() && floor < this->m_pStadiumManager->getTotalFloors())
     {
-        this->StadiumManager->getSeat(seat, row, floor)->reserveSeat(this->StadiumManager->ExampleGuy);
-        m_DebugMsg << "Seat: " << seat + 1 << ", row: " << row + 1 << ", floor: " << floor + 1
-            << " reserved succesfully by " << this->StadiumManager->ExampleGuy->getFullName();
+        this->m_pStadiumManager->getSeat(seat, row, floor)->reserveSeat(this->m_pStadiumManager->ExampleGuy);
+        m_DebugMsg << "Seat: " << seat + 1 << ", row: " << row + 1
+                   << ", floor: " << floor + 1 << " reserved succesfully by "
+                   << this->m_pStadiumManager->ExampleGuy->getFullName();
     }
     else
     {
         m_DebugMsg << "Seat not reserved due to invalid arguments either in seat, row or floor";
     }
 }
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void menu::checkReserved()
 {
-    this->m_DebugMsg << this->StadiumManager->ExampleGuy->getFullName() << " zarezerwował "
-        << this->StadiumManager->getCountOfReservedSeats(this->StadiumManager->ExampleGuy) << " miejsc.";
+    this->m_DebugMsg << this->m_pStadiumManager->ExampleGuy->getFullName()
+                     << " zarezerwował "
+                     << this->m_pStadiumManager->getCountOfReservedSeats(this->m_pStadiumManager->ExampleGuy)
+                     << " miejsc.";
 }
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void menu::exit()
 {
     this->m_Exit = true;
 }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

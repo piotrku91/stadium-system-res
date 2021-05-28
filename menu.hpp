@@ -8,31 +8,30 @@
 #include "stdlib.h"
 #include "log.hpp"
 
-
 // This class is only demo version - need to be rebuild
 
 class menu
 {
 private:
-    log Logger;                               // Log object
-    std::string m_Command;                         // Actual operation to switch.
-    bool m_Exit;                             // If is true main loop it is going to break.
-    std::shared_ptr<stadium> StadiumManager; // Keeps StadiumManager object smart pointer.
+    log m_Logger;                                   // Log object
+    std::string m_UserCommand;                      // User command
+    bool m_Exit;                                    // The mighty main loop breaker!
+    std::shared_ptr<stadium> m_pStadiumManager;     // Keeps StadiumManager object smart pointer.
 
     // m_Debug switches on and off additional debug menu
-    bool m_Debug {true};                        // Switch it to false when releasing for production
+    bool m_Debug {true};                            // Switch it to false when releasing for production
     std::stringstream m_DebugMsg {""};
 
     // Menu basic internal functions
-    std::vector<std::string> m_CommandArgs;
-    void tokenize(const std::string& command_sentence, const char delim, std::vector<std::string>& args);
+    std::vector<std::string> m_CommandArgs;         // User command divided into arguments
+    void tokenize(const std::string& t_UserCommand, const char t_Delim, std::vector<std::string>& t_Args);
     void reserveSeat();
     void checkReserved();
     void exit();
+    void menuError(std::string t_Message);
 
     // Map of commands and relevant lambdas
-    // Methods must throw exceptions if there is a need to trigger invalid input handler
-    std::map<std::string, std::function<void()>> m_Commands
+    std::map<std::string, std::function<void()>> m_MapCommands
     {
         {"exit", [this](){ this->exit(); }},
         {"reserved", [this](){ this->checkReserved(); }},
@@ -40,15 +39,13 @@ private:
     };
 
 public:
+    menu(std::shared_ptr<stadium>& t_pStadiumManager);
+
     // Menu basic internal functions
-    void operator()(); // Overloaded () operator
-    void reloadView(); // Shows graphic representation (prototype - needs to be rebuilded)
-    void reloadMenu(); // Shows menu entries (prototype - needs to be implemented)
+    void run();                                     // Entry point
+    void mainLoop();
+    void reloadView();                              // Shows graphic representation (prototype - needs to be rebuilded)
+
     //  Menu managing functions
     void menuExit();
-    void menuError(std::string Message = "error");
-    // And more to implement
-
-    // Constructor
-    menu(std::shared_ptr<stadium> &SM) : m_Exit{false}, StadiumManager(SM){};
 };
