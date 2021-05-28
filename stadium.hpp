@@ -34,30 +34,18 @@ private:
     void buildVector();
 
 public:
+    stadium(size_t t_SeatsInLine, size_t t_RowsOfLines, size_t t_Floors);
+
     // Public functions
-    const std::vector<TRow>& getWholeObject() { return wholeObject; };
-    char getSymbol(std::unique_ptr<seat>& item); // Return first char of seat object name.
+    const std::vector<TRow>& getWholeObject();
+
     // Zero-based numbering getters (index 0 = index 0)
-    const std::vector<std::unique_ptr<seat>>& getLine(size_t Row, size_t Floor) { return wholeObject[Floor][Row]; };      // Zero-based numbering getter (index 0 = index 0)
-    const std::unique_ptr<seat> &getSeat(size_t Seat, size_t Row, size_t Floor) { return wholeObject[Floor][Row][Seat]; } // Zero-based numbering getter (index 0 = index 0)
+    const std::vector<std::unique_ptr<seat>>& getLine(size_t t_Row, size_t t_Floor);      // Zero-based numbering getter (index 0 = index 0)
+    const std::unique_ptr<seat>& getSeat(size_t t_Seat, size_t t_Row, size_t t_Floor);    // Zero-based numbering getter (index 0 = index 0)
 
-    // Conversion to One-based numbering getters (index 1 = index 0)
-    const std::vector<std::unique_ptr<seat>>& getLinePlus(size_t Row, size_t Floor) { return getLine(Row - 1, Floor - 1); };           // One-based numbering getter (index 1 = index 0)
-    const std::unique_ptr<seat> &getSeatPlus(size_t Seat, size_t Row, size_t Floor) { return getSeat(Seat - 1, Row - 1, Floor - 1); }; // One-based numbering getter (index 1 = index 0)
-
-    size_t getSeatsInLineAmount() const { return m_LineSeats; }
-    size_t getRows() const { return m_RowSeats; }
-    size_t getFloors() const { return m_Floor; }
-
-    size_t getCountOfReservedSeats(const std::shared_ptr<Person>& PersonPtr);
-
-
-    // Constructor
-    stadium(size_t SeatsInLine, size_t RowsOfLines, size_t Floors) : m_LineSeats(SeatsInLine), m_RowSeats(RowsOfLines), m_Floor(Floors)
-    {
-        buildVector();
-
-        // Create example guy
-        ExampleGuy = std::make_shared<Person>("Janusz", "Laparoskop", "223300");
-    };
+    // Simple getters
+    size_t getTotalSeatsInLine() const;
+    size_t getTotalRows() const;
+    size_t getTotalFloors() const;
+    size_t getCountOfReservedSeats(const std::shared_ptr<Person>& t_pPerson) const;
 };
