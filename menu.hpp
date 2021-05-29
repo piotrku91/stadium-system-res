@@ -27,6 +27,7 @@ private:
     void tokenize(const std::string& t_UserCommand, const char t_Delim, std::vector<std::string>& t_Args);
     void reserveSeat();
     void checkReserved();
+    void showCoords();
     void exit();
     void menuError(std::string t_Message);
 
@@ -35,6 +36,7 @@ private:
     {
         {"exit", [this](){ this->exit(); }},
         {"reserved", [this](){ this->checkReserved(); }},
+        {"id", [this](){ this->showCoords(); }},
         {"rezerwuj", [this](){ this->reserveSeat(); }} // seat row floor
     };
 

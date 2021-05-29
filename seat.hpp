@@ -18,6 +18,7 @@ protected:
     void initPrice(std::string &byName);
 
     seat(std::map<std::string, int> &PriceMap) : m_SeatID(Counter++), Prices(PriceMap){}; // Constructor (protected)
+    
 
 public:
     inline static size_t Counter; // Keeps actual amount of created seats.
@@ -46,6 +47,9 @@ public:
         return false;
     }
     std::shared_ptr<Person> TicketOwner;
+
+    // Destructor
+    virtual ~seat() {};
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
