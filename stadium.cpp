@@ -1,8 +1,8 @@
 #include "stadium.hpp"
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
- void stadium::buildVector() // build nested vectors (fill wholeObject member)
+void stadium::buildVector() // build nested vectors (fill wholeObject member)
 {
-    for (size_t k = 0; k < m_Floor; k++)
+    for (size_t k = 0; k < m_Floors; k++)
     {
         TRow Row;
         for (size_t j = 0; j < m_RowSeats; j++)
@@ -20,7 +20,7 @@
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 stadium::stadium(size_t t_SeatsInLine, size_t t_RowsOfLines, size_t t_Floors)
-    : m_LineSeats(t_SeatsInLine), m_RowSeats(t_RowsOfLines), m_Floor(t_Floors)
+    : m_LineSeats(t_SeatsInLine), m_RowSeats(t_RowsOfLines), m_Floors(t_Floors)
 {
     buildVector();
 
@@ -39,25 +39,30 @@ const std::vector<std::unique_ptr<seat>>& stadium::getLine(size_t t_Row, size_t 
     return this->wholeObject[t_Floor][t_Row];
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const std::unique_ptr<seat>& stadium::getSeat(size_t t_Seat, size_t t_Row, size_t t_Floor)
+const std::unique_ptr<seat>& stadium::getSeat(size_t t_PosX, size_t t_PosY)
 {
-    // Zero-based numbering getter (index 0 = index 0)
-    return this->wholeObject[t_Floor][t_Row][t_Seat];
+    size_t FloorCount = t_PosY * this->m_LineSeats / (this->m_LineSeats * this->m_RowSeats);
+    size_t RowCount = t_PosY;
+    if(t_PosY > m_RowSeats)
+    {
+        RowCount = RowCount - ((FloorCount)*m_RowSeats);
+    }
+    return wholeObject[FloorCount][RowCount][t_PosX];
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-size_t stadium::getTotalSeatsInLine() const
+size_t stadium::getTotalSeats() const
 {
     return this->m_LineSeats;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 size_t stadium::getTotalRows() const
 {
-    return this->m_RowSeats;
+    return this->m_RowSeats * this->m_Floors;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 size_t stadium::getTotalFloors() const
 {
-    return this->m_Floor;
+    return this->m_Floors;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 size_t stadium::getCountOfReservedSeats(const std::shared_ptr<Person>& t_pPerson) const
@@ -67,5 +72,15 @@ size_t stadium::getCountOfReservedSeats(const std::shared_ptr<Person>& t_pPerson
          return t_pPerson.use_count() - 1;
      }
      return 0;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+size_t stadium::getIdByCoords(size_t t_Seat, size_t t_Row, size_t t_Floor) const
+{
+    return t_Seat + t_Row * this->m_LineSeats + t_Floor * this->m_RowSeats * this->m_LineSeats;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+size_t stadium::getIdByCoords(size_t t_PosX, size_t t_PosY) const
+{
+    return t_PosX + t_PosY * this->m_LineSeats;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

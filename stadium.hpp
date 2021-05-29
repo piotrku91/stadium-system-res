@@ -9,14 +9,14 @@ using TRow = std::vector<std::vector<std::unique_ptr<seat>>>; // short notation 
 class stadium
 {
     //Temporary public
-    public:
+public:
     std::shared_ptr<Person> ExampleGuy; // temporary guy for tests
 
 private:
     // Private members
     size_t m_LineSeats;
     size_t m_RowSeats;
-    size_t m_Floor;
+    size_t m_Floors;
 
     // Map with Prices List
     std::map<std::string, int> ActualPrices{
@@ -28,7 +28,7 @@ private:
 
     // Person list to implement
 
-    std::vector<TRow> wholeObject; // Seats list (m_LineSeats*m_RowSeats*m_Floor)
+    std::vector<TRow> wholeObject; // Seats list (m_LineSeats*m_RowSeats*m_Floors)
 
     // Private functions
     void buildVector();
@@ -41,11 +41,13 @@ public:
 
     // Zero-based numbering getters (index 0 = index 0)
     const std::vector<std::unique_ptr<seat>>& getLine(size_t t_Row, size_t t_Floor);      // Zero-based numbering getter (index 0 = index 0)
-    const std::unique_ptr<seat>& getSeat(size_t t_Seat, size_t t_Row, size_t t_Floor);    // Zero-based numbering getter (index 0 = index 0)
+    const std::unique_ptr<seat>& getSeat(size_t t_PosX, size_t t_PosY);                   // Zero-based numbering getter (index 0 = index 0)
 
     // Simple getters
-    size_t getTotalSeatsInLine() const;
+    size_t getTotalSeats() const;
     size_t getTotalRows() const;
     size_t getTotalFloors() const;
     size_t getCountOfReservedSeats(const std::shared_ptr<Person>& t_pPerson) const;
+    size_t getIdByCoords(size_t t_Seat, size_t t_Row, size_t t_Floor) const;
+    size_t getIdByCoords(size_t t_PosX, size_t t_PosY) const;
 };

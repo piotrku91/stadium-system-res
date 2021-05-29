@@ -55,7 +55,7 @@ void menu::reloadView()
 
     // Simple column counter
     std::cout << " X  ";
-    for (size_t i = 1; i <= m_pStadiumManager->getTotalSeatsInLine(); i++)
+    for (size_t i = 1; i <= m_pStadiumManager->getTotalSeats(); i++)
     {
 
         if (i < 10)
@@ -87,7 +87,15 @@ void menu::reloadView()
 
             for (auto &Seat : StadiumLine)
             {
-                std::cout << std::setw(1) << "[" << Seat->getSymbol() << "] ";
+                 //temporary solution of representation busy and free seat
+                char So='[';
+                char Sc=']';
+                if (Seat->isBusy())
+                {
+                    So=Sc=':';
+                }
+
+                std::cout << std::setw(1) << So << Seat->getSymbol() << Sc << " ";
             };
             std::cout << std::endl;
         };
@@ -112,13 +120,11 @@ void menu::reserveSeat()
 {
     size_t seat = std::stoull(this->m_CommandArgs.at(1)) - 1;
     size_t row = std::stoull(this->m_CommandArgs.at(2)) - 1;
-    size_t floor = std::stoull(this->m_CommandArgs.at(3)) - 1;
-    if(seat < this->m_pStadiumManager->getTotalSeatsInLine() && row < this->m_pStadiumManager->getTotalRows() && floor < this->m_pStadiumManager->getTotalFloors())
+    if(seat < this->m_pStadiumManager->getTotalSeats() && row < this->m_pStadiumManager->getTotalRows())
     {
-        this->m_pStadiumManager->getSeat(seat, row, floor)->reserveSeat(this->m_pStadiumManager->ExampleGuy);
+        this->m_pStadiumManager->getSeat(seat, row)->reserveSeat(this->m_pStadiumManager->ExampleGuy);
         m_DebugMsg << "Seat: " << seat + 1 << ", row: " << row + 1
-                   << ", floor: " << floor + 1 << " reserved succesfully by "
-                   << this->m_pStadiumManager->ExampleGuy->getFullName();
+                   << " reserved succesfully by " << this->m_pStadiumManager->ExampleGuy->getFullName();
     }
     else
     {
