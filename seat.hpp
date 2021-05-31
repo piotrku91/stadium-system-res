@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 
+
 // This class is only demo version - need to be rebuild
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class seat // Abstract class
@@ -13,18 +14,18 @@ protected:
     size_t m_SeatID;
     mutable std::string m_Name;
     int m_Price;
-    std::map<std::string, int> &Prices; // Reference to prices list
+    std::map<std::string, size_t> &Prices; // Reference to prices list
     virtual void initName() = 0;        // Pure virtual function
     void initPrice(std::string &byName);
 
-    seat(std::map<std::string, int> &PriceMap) : m_SeatID(Counter++), Prices(PriceMap){}; // Constructor (protected)
+    seat(std::map<std::string, size_t> &PriceMap) : m_SeatID(Counter++), Prices(PriceMap){}; // Constructor (protected)
     
 
 public:
     inline static size_t Counter; // Keeps actual amount of created seats.
     // Template of production function
     template <typename T>
-    static std::unique_ptr<seat> createSeat(std::map<std::string, int> &PriceMap) // Produce new object of subclass
+    static std::unique_ptr<seat> createSeat(std::map<std::string, size_t> &PriceMap) // Produce new object of subclass
     {
         return std::make_unique<T>(T(PriceMap));
     }
@@ -60,7 +61,7 @@ private:
 
 public:
     // Constructor
-    Standard(std::map<std::string, int> &PriceMap) : seat(PriceMap)
+    Standard(std::map<std::string, size_t> &PriceMap) : seat(PriceMap)
     {
         initName();
         initPrice(m_Name);
@@ -74,7 +75,7 @@ private:
 
 public:
     // Constructor
-    VIP(std::map<std::string, int> &PriceMap) : seat(PriceMap)
+    VIP(std::map<std::string, size_t> &PriceMap) : seat(PriceMap)
     {
         initName();
         initPrice(m_Name);
@@ -88,7 +89,7 @@ private:
 
 public:
     // Constructor
-    Disabled(std::map<std::string, int> &PriceMap) : seat(PriceMap)
+    Disabled(std::map<std::string, size_t> &PriceMap) : seat(PriceMap)
     {
         initName();
         initPrice(m_Name);

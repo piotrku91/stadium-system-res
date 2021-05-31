@@ -1,0 +1,3 @@
+Standard 370
+Disabled 250
+VIP 1000

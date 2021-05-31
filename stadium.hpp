@@ -17,12 +17,10 @@ private:
     size_t m_LineSeats;
     size_t m_RowSeats;
     size_t m_Floors;
+    
 
     // Map with Prices List
-    std::map<std::string, int> ActualPrices{
-        {"Standard", 370},
-        {"Disabled", 250},
-        {"VIP", 1000}};
+    std::map<std::string, size_t> ActualPrices;
 
     // Black list to implement
 
@@ -55,5 +53,9 @@ public:
     std::pair<size_t, size_t> getCoordsById(size_t t_Id) const;
     std::string coordsToStr(std::pair<size_t, size_t> Coords);
     std::string coordsToStr(size_t t_PosX, size_t t_PosY); // Returns string of X, Y (incremented by 1)
+
+    // Files
+    bool loadPatternsToMap(const std::string &t_Filename, std::map<size_t, std::string> &t_Content); // Read patterns of type seats from file
+    bool loadPricesToMap(const std::string &t_Filename, std::map<std::string, size_t> &t_Content); // Read actually prices from file
 
 };
