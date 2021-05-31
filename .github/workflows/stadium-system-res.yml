@@ -10,8 +10,6 @@ jobs:
     steps:
     - name: Check out code
       uses: actions/checkout@master
-    - name: Create build directory
-      run: mkdir ${{ env.path }}
     - name: Compile
       working-directory: ${{ env.path }}
       run: |
